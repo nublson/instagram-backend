@@ -1,4 +1,7 @@
 const Post = require("../models/Post");
+const path = require("path");
+const fs = require("fs");
+const sharp = require("sharp");
 
 module.exports = {
     // List all posts
@@ -15,6 +18,14 @@ module.exports = {
         // Acessando filename como image
         const { filename: image } = req.file;
 
+        // Fazer redimensionamento da imagem
+        await sharp(req.file.path)
+            .resize(500)
+            .jpeg({ quality: 70 })
+            .toFile(path.resolve(req.file.destination, "resized", image));
+
+        // Apagar foto original
+        fs.unlinkSync(req.file.path);
         // Criar post
         const post = await Post.create({
             author,
