@@ -7,6 +7,20 @@ module.exports = {
     },
     // Create new posts
     async store(req, res) {
-        return res.json({ ok: true });
+        // Acessando dados enviados no corpo da requisição
+        const { author, place, description, hashtags } = req.body;
+        // Acessando filename como image
+        const { filename: image } = req.file;
+
+        // Criar post
+        const post = await Post.create({
+            author,
+            place,
+            description,
+            hashtags,
+            image
+        });
+
+        return res.json(post);
     }
 };
