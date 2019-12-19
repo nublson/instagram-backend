@@ -3,7 +3,10 @@ const Post = require("../models/Post");
 module.exports = {
     // List all posts
     async index(req, res) {
-        const {} = req.body;
+        // Procurar todos os posts e sortear em ordem decrescente
+        const posts = await Post.find().sort("-createdAt");
+
+        return res.json(posts);
     },
     // Create new posts
     async store(req, res) {
