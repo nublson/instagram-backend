@@ -18,11 +18,15 @@ module.exports = {
         // Acessando filename como image
         const { filename: image } = req.file;
 
+        // Alterar formato da imagem para jpg
+        const [name] = image.split(".");
+        const fileName = `${name}.jpg`;
+
         // Fazer redimensionamento da imagem
         await sharp(req.file.path)
             .resize(500)
             .jpeg({ quality: 70 })
-            .toFile(path.resolve(req.file.destination, "resized", image));
+            .toFile(path.resolve(req.file.destination, "resized", fileName));
 
         // Apagar foto original
         fs.unlinkSync(req.file.path);
@@ -32,7 +36,7 @@ module.exports = {
             place,
             description,
             hashtags,
-            image
+            image: fileName
         });
 
         return res.json(post);
