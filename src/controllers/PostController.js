@@ -39,6 +39,9 @@ module.exports = {
             image: fileName
         });
 
+        // Quando um novo post for criado, vamos EMITÍ-LO por toda a app
+        // A função emit recebe o nome da informação a ser enviada (pode ser qualquer nome) e os dados da informação
+        req.io.emit("post", post);
         return res.json(post);
     }
 };

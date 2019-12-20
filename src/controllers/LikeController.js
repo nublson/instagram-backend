@@ -16,6 +16,8 @@ module.exports = {
         !post.likes ? (post.likes += 1) : (post.likes = 0);
 
         await post.save();
+
+        req.io.emit("like", post);
         return res.json(post);
     }
 };
